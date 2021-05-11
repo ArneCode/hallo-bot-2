@@ -20,6 +20,12 @@ async function createGuildInfo(guild){
   .insertOne(info)
   return info
 }
+async function updateGuildInfo(guildInfo){
+  await cluster
+  .db("hallo-bot")
+  .collection("guilds")
+  .updateOne({_id:guildInfo._id},{$set:guildInfo})
+}
 async function getGuildInfo(guild){
   const {id}=guild
   if(!guildInfos[id]){
@@ -40,11 +46,11 @@ async function createMemberInfo(member,guildInfo){
     state:null
   }
   guildInfo.members[member.id]=info
-  updateGuildInfo(guildInfo)
+  await updateGuildInfo(guildInfo)
   return info
 }
-async function getMemberInfo(member){
-  let guildInfo=await getGuildInfo(member.guild)
+async function getMemberInfo(member,guildInfo){
+  //let guildInfo=await getGuildInfo(member.guild)
   let {members}=guildInfo
   let {id}=member
   if(id in members){
@@ -56,4 +62,4 @@ async function getMemberInfo(member){
 async function init(){
   await cluster.connect()
 }
-module.exports={getGuildInfo,init}
+module.exports={getGuildInfo,getMemberInfo,updateGuildInfo,init}
