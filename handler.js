@@ -38,6 +38,9 @@ async function handleCommand(content, msg, memberInfo, guildInfo) {
       }
       let target = msg.mentions.members.first()
       let state = text_split.slice(2).join(" ")
+      if(state=="null"){
+        state=null
+      }
       let targetInfo = await server.getMemberInfo(target, guildInfo)
       targetInfo.state = state
       console.log(state, guildInfo, target.id, targetInfo)
