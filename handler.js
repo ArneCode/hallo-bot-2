@@ -9,7 +9,6 @@ async function message(msg, bot) {
   if (author.bot) { return }
   const guildInfo = await server.getGuildInfo(guild)
   const memberInfo = await server.getMemberInfo(member, guildInfo)
-  //console.log(getRoleNames(member))
   if (content.toLowerCase().startsWith(prefix)) {
     content = content.slice(prefix.length)
     handleCommand(content, msg, memberInfo, guildInfo)
@@ -35,6 +34,7 @@ async function handleCommand(content, msg, memberInfo, guildInfo) {
     case "set": {
       if (!roles_allowed.some(role => roles.includes(role))) {
         msg.channel.send(`you need to be one of: ${roles_allowed.join(", ")}`)
+        console.log(getRoleNames(member),roles_allowed)
         break;
       }
       let target = msg.mentions.members.first()
