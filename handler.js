@@ -19,6 +19,9 @@ async function message(msg, bot) {
     if (state) {
       suffix = ", " + state
     }
+    if(state=="ignore"){
+      return
+    }
     let text = `hallo${suffix}`
     msg.channel.send(text)
     if (msg.member.voice.channel) {
@@ -61,7 +64,7 @@ async function voiceChannelChange(old_m, new_m, bot) {
     if (newChannel != null && oldChannel == null) {
       console.log(`${new_m.member.displayName} joined ${newChannel.name}. HALLO!`);
       let state=await getState(new_m)
-      if(state=="silent"){
+      if(["ignore","silent"].includes(state)){
         return
       }
       let suffix = await getSuffix(state);
@@ -70,7 +73,7 @@ async function voiceChannelChange(old_m, new_m, bot) {
     } else if (newChannel == null && oldChannel != null) {
       console.log(`${old_m.member.displayName} left ${oldChannel.name}. Tschüss!`);
       let state=await getState(old_m)
-      if(state=="silent"){
+      if(["ignore","silent"].includes(state)){
         return
       }
       let suffix = await getSuffix(state);
