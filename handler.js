@@ -60,7 +60,7 @@ async function voiceChannelChange(old_m, new_m, bot) {
     let newChannel = new_m.channel;
     if (newChannel != null && oldChannel == null) {
       console.log(`${new_m.member.displayName} joined ${newChannel.name}. HALLO!`);
-      let state=getState(new_m)
+      let state=await getState(new_m)
       if(state=="silent"){
         return
       }
@@ -69,7 +69,7 @@ async function voiceChannelChange(old_m, new_m, bot) {
       say(newChannel, "./audio/Hallo.mp3", text)
     } else if (newChannel == null && oldChannel != null) {
       console.log(`${old_m.member.displayName} left ${oldChannel.name}. Tschüss!`);
-      let state=getState(old_m)
+      let state=await getState(old_m)
       if(state=="silent"){
         return
       }
