@@ -60,12 +60,20 @@ async function voiceChannelChange(old_m, new_m, bot) {
     let newChannel = new_m.channel;
     if (newChannel != null && oldChannel == null) {
       console.log(`${new_m.member.displayName} joined ${newChannel.name}. HALLO!`);
-      let suffix = await getSuffix(new_m);
+      let state=getState(new_m)
+      if(state=="silent"){
+        return
+      }
+      let suffix = await getSuffix(state);
       let text = new_m.member.displayName + suffix
       say(newChannel, "./audio/Hallo.mp3", text)
     } else if (newChannel == null && oldChannel != null) {
       console.log(`${old_m.member.displayName} left ${oldChannel.name}. Tschüss!`);
-      let suffix = await getSuffix(old_m);
+      let state=getState(old_m)
+      if(state=="silent"){
+        return
+      }
+      let suffix = await getSuffix(state);
       let text = old_m.member.displayName + suffix
       say(oldChannel, "./audio/Tschuess.mp3", text)
     }
@@ -78,9 +86,12 @@ async function getRoleNames(member) {
   console.log(roles)
   return roles
 }
-async function getSuffix(member) {
+async function getState(member){
   let guildInfo = await server.getGuildInfo(member.guild)
   let { state } = await server.getMemberInfo(member, guildInfo)
+  return state
+}
+async function getSuffix(state) {
   if (state) {
     return `, ${state}`
   }
