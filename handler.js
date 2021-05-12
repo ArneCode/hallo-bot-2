@@ -9,6 +9,7 @@ async function message(msg, bot) {
   if (author.bot) { return }
   const guildInfo = await server.getGuildInfo(guild)
   const memberInfo = await server.getMemberInfo(member, guildInfo)
+  //console.log(getRoleNames(member))
   if (content.toLowerCase().startsWith(prefix)) {
     content = content.slice(prefix.length)
     handleCommand(content, msg, memberInfo, guildInfo)
@@ -17,7 +18,7 @@ async function message(msg, bot) {
     let suffix = ""
     let { state } = memberInfo
     if (state) {
-      suffix = ", du " + state
+      suffix = ", " + state
     }
     let text = `hallo${suffix}`
     msg.channel.send(text)
@@ -81,7 +82,7 @@ async function getSuffix(member) {
   let guildInfo = await server.getGuildInfo(member.guild)
   let { state } = await server.getMemberInfo(member, guildInfo)
   if (state) {
-    return `, du ${state}`
+    return `, ${state}`
   }
   return ""
 }
