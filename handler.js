@@ -107,9 +107,11 @@ async function say(channel, file, text) {
     speech.on("speaking", (speaking) => {
       if (!speaking) {
         //file has finished playing
+        let ttsVoice = discordTTS.getVoiceStream(text, 'de-DE', 2)
         let dispatcher = connection.play(
-          discordTTS.getVoiceStream(text, 'de-DE', 2)
+          ttsVoice
         );
+        console.log(ttsVoice);
         dispatcher.on('speaking', speaking => {
           if (!speaking) {
             connection.disconnect();
