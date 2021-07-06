@@ -102,12 +102,12 @@ async function getSuffix(state) {
 }
 async function say(channel, file, text) {
   const connection = await channel.join()
+  let ttsVoice = discordTTS.getVoiceStream(text, 'de-DE', 2)
   setTimeout(() => {
     let speech = connection.play(file);
     speech.on("speaking", (speaking) => {
       if (!speaking) {
         //file has finished playing
-        let ttsVoice = discordTTS.getVoiceStream(text, 'de-DE', 2)
         let dispatcher = connection.play(
           ttsVoice
         );
