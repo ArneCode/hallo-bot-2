@@ -114,7 +114,7 @@ async function say(channel, file, text) {
         console.log(ttsVoice);
         dispatcher.on('speaking', speaking => {
           if (!speaking) {
-            //connection.disconnect();
+            connection.disconnect();
           }
         });
       }
